@@ -1,0 +1,625 @@
+/* Vendor Dependencies */
+@import "compass";
+@import "singularitygs";
+@import "import/vendor/normalize";
+
+/* Authored Dependencies */
+// @import "import/mixins";
+
+/* Patterns */ 
+@import "import/forms"; // default styles for forms
+
+
+// apply a natural box layout model to all elements
+* {
+	@include box-sizing(border-box);
+}
+
+//	 __  __ _____  _____ _   _ ____  
+//	|  \/  |_ _\ \/ /_ _| \ | / ___| 
+//	| |\/| || | \  / | ||  \| \___ \  
+//	| |  | || | /  \ | || |\  |___) |
+//	|_|  |_|___/_/\_\___|_| \_|____/ 
+//  
+//	 ~ SCSS mixins and variables ~
+
+$experimental-support-for-svg: true;
+$grids: 12;
+$gutters: 30/54;
+$max-page-width: 978px;
+$mobile-first: false;
+$max-mobile-width: 760px;
+
+// Web Safe Fonts
+$font-arial: Arial, Helvetica, sans-serif;
+$font-arial-black: "Arial Black", Gadget, sans-serif;
+$font-courier: "Courier New", Courier, Monospace;
+$font-georgia: Georgia, serif;
+$font-lucida-console: "Lucida Console", Monaco, monospace;
+$font-lucida-sans: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+$font-tahoma: Tahoma, Geneva, sans-serif;
+$font-times: "Times New Roman", Times, serif;
+$font-trebuchet: "Trebuchet MS", Tahoma, Arial, sans-serif;
+$font-verdana: Verdana, Geneva, sans-serif;
+$font-helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-baskerville: Baskerville, Palatino, "Palatino Linotype", Georgia, Serif;
+
+//Google fonts
+$font-work: 'Work Sans', sans-serif;
+$font-merri: 'Merriweather', serif;
+$font-arch: 'Archivo Black', sans-serif;
+$font-roboto: 'Roboto', sans-serif;
+$font-open: 'Open Sans', sans-serif;
+$font-archn: 'Archivo Narrow', sans-serif;
+
+@mixin text($color:#333, $font-size:17px, $lh: 0, $font-family:$font-roboto, $font-weight: 400,  $font-style:0) {
+	color: $color;
+	font-size: $font-size;
+	@if $lh== 0 {}
+	@else {
+		line-height: $lh/$font-size;		
+	}
+	font-family: $font-family;
+	font-weight: $font-weight;
+	@if $font-style == 0 {}
+	@else {
+		font-style: $font-style;
+	}
+}
+
+.printElement {
+	display: none;
+}
+
+.offscreen {
+	text-indent: -9999em;
+	padding: 0;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	display: block;
+	overflow: hidden;
+	list-style: none;
+	br {
+		display:none;
+	}
+}
+
+.clearfix {
+	&:before {
+		content: "";
+		display: table;
+	}
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+//	 ____    _    ____  _____   ____ _______   ___     _____ ____  
+//	| __ )  / \  / ___|| ____| / ___|_   _\ \ / / |   | ____/ ___| 
+//	|  _ \ / _ \ \___ \|  _|   \___ \ | |  \ V /| |   |  _| \___ \ 
+//	| |_) / ___ \ ___) | |___   ___) || |   | | | |___| |___ ___) |
+//	|____/_/   \_\____/|_____| |____/ |_|   |_| |_____|_____|____/ 
+//  
+//						~ element selectors ~
+
+html {
+	font-size: 62.5%;
+}
+
+a {
+	color: #336699;
+	&:visited {
+		color: #ff0000;
+	}
+	&:hover, &:focus {
+		color: #996600;
+	}
+	&:active, &.current {
+		color: #330066;
+	}
+}
+
+h2, h3, h4, h5, h6 {
+	@include text(#000, 29px, 0, $font-archn, 700);
+	@include breakpoint(max-width 768px) {
+		font-size: 25px;
+	}
+	@include breakpoint(max-width 650px) {
+		font-size: 23px;
+	}
+}
+
+h3 {
+	font-size: 24px;
+	@include breakpoint(max-width 768px) {
+		font-size: 22px;
+	}
+	@include breakpoint(max-width 650px) {
+		font-size: 20px;
+	}
+}
+
+td img {
+	max-width: none; // max-width breaks the design when images reside within table cells (try max-width: 100% and see)
+}
+
+//	 ____  _____ _____ _   _   _ _   _____   ____ _______   ___     _____ ____  
+//	|  _ \| ____|  ___/ \ | | | | | |_   _| / ___|_   _\ \ / / |   | ____/ ___| 
+//	| | | |  _| | |_ / _ \| | | | |   | |   \___ \ | |  \ V /| |   |  _| \___ \ 
+//	| |_| | |___|  _/ ___ \ |_| | |___| |    ___) || |   | | | |___| |___ ___) |
+//	|____/|_____|_|/_/   \_\___/|_____|_|   |____/ |_|   |_| |_____|_____|____/ 
+//   
+//							  ~ all resolutions ~
+
+body {  
+	color: #333;
+	font-family: $font-helvetica;
+	font-size: 16px;
+}
+
+.container-header-page, .container-banner, .container-columns, .container-flex, .container-content-secondary, .container-contact-info, .container-footer-page {
+	@include clearfix();
+    max-width: $max-page-width;
+    margin: 0 auto;
+	@include breakpoint(max-width 978px) {
+		padding: 0 10px;
+	}
+}
+
+.header-page-wrap {
+	background: #134475;
+}
+
+.brand {
+	float: left;
+	display: block;
+	margin: 28px 0 18px;
+	@include breakpoint(max-width 980px) {
+		width: 55%;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		float: none;
+		display: table;
+		margin: 20px auto 0;
+		width: auto;
+	}
+}
+
+.brand-image {
+	max-width: 100%;
+}
+
+.cta {
+	@include text(#11a1d9, 24px, 30px, $font-work, 500);
+	float: right;
+	margin: 20px 0 19px;
+	text-align: right;
+	@include breakpoint(max-width 760px) {
+		float: none;
+		display: table;
+		margin: 0px auto 20px;
+		text-align: center;
+	}
+}
+
+.cta-text {
+	p{
+		margin: 0;
+	}
+}
+
+.cta-phone {
+	color: #fff;
+	a {
+		color: #fff;
+		text-decoration: none;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 22px;
+		background: #11a1d9;
+		line-height: 1;
+		border-radius: 5px;
+		padding: 9px 14px;
+		margin: 4px 0;
+		&:before {
+			@include text(#fff, 22px, 22px, FontAwesome);
+			content: "\f095";
+			display: inline-block;
+		}
+	}
+}
+
+.banner-wrap-outer {
+	background: url(../images/bg-banner-wrap-ppc.jpg) center top no-repeat;
+	padding: 30px 0 25px;
+	background-size: cover;
+	@include breakpoint(max-width 978px) {
+		padding: 30px 0 25px;	
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 20px 0;	
+	}
+}
+
+.banner-wrap {
+	background: rgba(0,0,0,.46);
+	padding: 11px 0 0;
+}
+
+.banner {
+	@include text(#fff, 16px, 0, $font-merri, 700);
+	text-shadow: 0px 0px 7px rgba(0, 0, 0, 1);
+	span {
+		display: block;
+	}
+	p {
+		clear: both;
+		margin: 0 0 12px;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 16px;
+	}
+	@include breakpoint(max-width 410px) {
+		span {
+			display: inline;
+		}
+	}
+}
+
+.page-title {
+	@include text(#fff, 30px, 0, $font-merri, 700);
+	@include grid-span(7);
+	margin: 0;
+	padding: 0 0 7px;
+	@include breakpoint(max-width 950px) {
+		width: 78%;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 24px;
+		width: 100%;
+	}
+	@include breakpoint(max-width 400px) {
+		font-size: 20px;
+	}
+	@include breakpoint(max-width 340px) {
+		font-size: 19px;
+	}
+}
+
+.container-colums-wrap {
+	padding: 28px 0 0;
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 0 0 20px;
+	}
+}
+
+.container-column-main {
+	float: left;
+	width: 100%;
+	img {
+		display: block;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+}
+
+.column-main {
+	margin-right: (54px * 5) + (30px * 5);
+	padding: 0 0 2.5em;
+	@include breakpoint(max-width 768px) {
+		margin-right: (54px * 4) + (30px * 4);
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		margin-right: 0;
+		padding: 0 0 20px;
+	}
+}
+
+.column-side {
+	float: right;
+	width: (54px * 5) + (30px * 4);
+	margin-left: -100%;
+	@include breakpoint(max-width 768px) {
+		width: (54px * 4) + (30px * 3);
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		margin-left: 0;
+		padding: 0;
+		width: 100%;
+	}
+}
+
+.content {
+	@include clearfix();
+	@include text(#333, 17px, 23px);
+	ul {
+		li {
+			padding: 10px 0;
+		}
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 16px;
+		p {
+			margin: 14px 0;
+		}
+		ul {
+			li {
+				padding: 5px 0;
+			}
+		}
+	}
+	// h2, h3 {
+	// 	line-height: 1;
+	// 	margin: 0;
+	// 	padding: 0 0 22px;
+	// 	@include breakpoint(max-width 900px) {
+	// 		font-size: 25px;
+	// 	}
+	// 	@include breakpoint(max-width 720px) {
+	// 		font-size: 22px;
+	// 		padding: 0 0 10px;
+	// 	}
+	// }
+}
+
+/* DESIGN INTAKE FORM SHORT - Common Edits */
+ 
+.short-form-ppc {
+	background: #134475;
+	padding: 25px 52px 30px;
+	margin-top: 32px;
+	@include breakpoint(max-width 768px) {
+		padding: 20px 30px 25px;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 20px 30px 25px;
+		margin-top: 0;
+	}
+}
+
+.title-ppc {
+	@include text(#fff, 24px, 0, $font-arch);
+	margin: 0;
+	padding: 0 0 30px;
+	p{
+		margin:0;
+	}
+	@include breakpoint(max-width 768px) {
+		font-size: 20px;
+	}
+}
+/* text color, size */
+#containerIntakeFormShort, #containerIntakeFormShortAutofill { 
+    @include text(#fff, 13px,0);
+}
+
+/* input width, margin, padding, color */
+#intakeFormShort,#intakeFormShortAutofill{
+    fieldset{
+        textarea,input{
+        	@include text(#333, 15px,0);
+            display: block; 
+            width: 100%; 
+            margin: .6em 0; 
+            padding: 10px 5% 9px;
+        }
+        textarea{
+        	height: 100px;
+        }
+        /* input border color */
+        div.formHighlight *{
+	        border: 1px solid #fff;
+	        &:hover, &:focus, &.current{
+	            background: #fff;      
+	        }
+        }
+        /* disclaimer link color */
+        .formCheck {
+        	color: #fff;
+        	a{
+                &:link, &:visited{
+                    color: #fff;
+                }
+                &:hover, &:focus{
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    /* privacy policy link color */
+    p.intakeFormShortPrivacy {
+    	padding-left: 19px;
+    	a{
+        	color: #fff;
+    		&:link, &:visited{
+                color: #fff;
+            }
+            &:hover, &:focus{
+                text-decoration: none;
+            }
+        }
+    }
+}
+/* pop-up disclaimer */
+#intakeFormShortDisclaimer {
+	width: 100%;
+	font-size: 12px;
+	div { 
+	    border:1px solid #3a5278;
+	    background: #fff; 
+	    color: #000; 
+	    padding: 5px; 
+	}
+	a{
+	    color: #000;
+	}
+}
+/* submit button */
+#intakeFormShortSubmit, #intakeFormShortAutofillSubmit {
+	@include text(#fff, 18px,0, $font-roboto, 700);
+	background: #12a0d8;
+	border: none;
+	height: auto; 
+	margin: 20px 0 0; 
+	padding: 28px 15px; 
+	text-align: center; 
+	width: 100%;
+	white-space: normal;
+	&:hover, &:visited, &:active {
+		background: #2c7795;
+	}
+	@include breakpoint(max-width 768px) {
+		font-size: 16px;
+	}
+}
+
+/* END DESIGN INTAKE FORM SHORT - Common Edits */
+
+.flex {
+	@include text(#333, 17px, 23px);
+	h2, h3 {
+		margin: 0;
+		font-size: 30px;
+	}
+	@include breakpoint(max-width 950px) {
+		h2, h3 {
+			font-size: 23px;
+		}
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 16px;
+	}
+}
+
+.flex-widget {
+	padding: 32px 39px 19px;
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 25px 30px 5px;
+	} 
+	@include breakpoint(max-width 450px) {
+		padding: 20px 20px 5px;
+	}
+} 
+
+.primary {
+	@include grid-span(6, 1);
+	border: 3px solid #ccc;
+	padding-bottom: 34px;
+	@include breakpoint(max-width $max-mobile-width) {
+		@include grid-span(12);
+		padding-bottom: 5px;
+		margin-bottom: 20px;
+	}
+}
+
+.secondary {
+	@include grid-span(6, 7);
+	background: #f0f0f0;
+	@include breakpoint(max-width $max-mobile-width) {
+		@include grid-span(12);
+	}
+}
+
+.content-secondary-wrap {
+	padding: 39px 0 37px;
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 20px 0 5px;
+	}
+}
+
+.image-holder {
+	@include grid-span(4);
+	padding-top: 11px;
+	img {
+		display: block;
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		@include grid-span(12);
+		padding: 0 0 20px;
+	}
+}
+
+.content-secondary {
+	@include grid-span(8,5);	
+	@include text(#000, 17px, 23px);
+	padding-left: 10px;
+	h2, h3 {
+		font-size: 30px;
+		margin: 0; 
+		padding: 0;
+		@include breakpoint(max-width $max-mobile-width) {
+			font-size: 23px;
+		}
+	}
+	@include breakpoint(max-width $max-mobile-width) {
+		@include grid-span(12);
+		font-size: 16px;
+		padding-left: 0;
+	}
+}
+
+.contact-info-wrap {
+	background: #12a0d8;
+	padding: 11px 0 2px;
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 5px 0;
+	}
+}
+
+.contact-info {
+	@include text(#fff, 18px, 30px, $font-open);
+	text-align: center;
+	text-transform: uppercase;
+	span {
+		display: block;
+	}
+	a {
+		color: #fff;
+	}	
+	@include breakpoint(max-width $max-mobile-width) {
+		font-size: 16px;
+		line-height: 1.5;
+	}
+}
+
+.footer-wrap {
+	background: #134475;
+	padding: 64px 0 80px;
+	@include breakpoint(max-width $max-mobile-width) {
+		padding: 20px 0 25px;
+	}
+}
+
+.footer-page {
+	@include text(#fff, 14px, 25px, $font-open);
+	text-align: center;
+	a {
+		color: #fff;
+		&:hover, &:focus, &:active {
+			color: #fff;
+			text-decoration: none;
+		}
+	}
+}
+
+.fine-print {
+	clear: both;
+	p {
+		
+	}
+}
+
+.copyright {
+	display: inline;
+	padding: 0;
+	margin: 0 10px 0 0;
+}
+.branding {
+	display: inline;
+	padding: 0;
+}
+
